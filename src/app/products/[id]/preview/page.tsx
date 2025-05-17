@@ -14,21 +14,31 @@ import {
 import Image from "next/image";
 import LayoutContent from "@/app/layouts/layout-content";
 
-interface Props {
-  params: {
-    id: string;
-  };
-}
+// Utility to normalize image URLs
+const normalizeImageUrl = (url: string) => {
+  if (!url) return "https://placehold.co/600x400.png";
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  if (url.startsWith("/")) return `https://api.escuelajs.co${url}`;
+  return `https://api.escuelajs.co/${url}`;
+};
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const product = await getProductById(params.id);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = (await params) as { id: string };
+  const product = await getProductById(id);
 
   if (!product) {
     return {
       title: "Product Not Found",
       description: "The requested product could not be found.",
+      robots: "noindex, nofollow",
     };
   }
+
+  const imageUrl = normalizeImageUrl(product.images[0]);
 
   return {
     title: `${product.title} | Store In`,
@@ -36,19 +46,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: product.title,
       description: product.description,
-      images: product.images,
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: product.title,
+        },
+      ],
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
       title: product.title,
       description: product.description,
-      images: product.images,
+      images: [imageUrl],
+    },
+    robots: "index, follow",
+    alternates: {
+      canonical: `/products/${id}/preview`,
     },
   };
 }
 
-const ProductPreviewPage = async ({ params }: Props) => {
+const ProductPreviewPage = async (props: {
+  params: Promise<{ id: string }>;
+}) => {
+  const params = await props.params;
   const product = await getProductById(params.id);
 
   if (!product) {
@@ -94,7 +118,7 @@ const ProductPreviewPage = async ({ params }: Props) => {
                 }}
               >
                 <Image
-                  src={product?.images[0] || "https://placehold.co/600x400"}
+                  src={product?.images[0] || "https://placehold.co/600x400.png"}
                   alt={product?.title}
                   fill
                   style={{ objectFit: "cover" }}

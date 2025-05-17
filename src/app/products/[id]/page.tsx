@@ -1,6 +1,4 @@
-import React from "react";
 import { getProductById } from "@/app/apis/product.api";
-import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
   Box,
@@ -17,15 +15,14 @@ import Image from "next/image";
 import LayoutContent from "@/app/layouts/layout-content";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { Metadata } from "next";
 
-interface Props {
-  params: {
-    id: string;
-  };
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const product = await getProductById(params.id);
+export async function generateMetadata(props: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const params = await props.params;
+  const id = params.id;
+  const product = await getProductById(id);
 
   if (!product) {
     return {
@@ -45,8 +42,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const ProductDetailPage = async ({ params }: Props) => {
-  const product = await getProductById(params.id);
+const ProductDetailPage = async (props: {
+  params: Promise<{ id: string }>;
+}) => {
+  const params = await props.params;
+  const id = params.id;
+  const product = await getProductById(id);
 
   if (!product) {
     notFound();
@@ -74,7 +75,7 @@ const ProductDetailPage = async ({ params }: Props) => {
           </Button>
           <Button
             startIcon={<VisibilityIcon />}
-            href={`/products/${params.id}/preview`}
+            href={`/products/${id}/preview`}
             variant="contained"
             target="_blank"
           >
