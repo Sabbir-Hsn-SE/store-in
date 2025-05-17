@@ -2,8 +2,8 @@ import { Product } from "@/app/types";
 import { GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import { Box, IconButton } from "@mui/material";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import SafeImage from "@/components/safe-image";
 
 const useColumnDef = () => {
   const router = useRouter();
@@ -17,8 +17,8 @@ const useColumnDef = () => {
       renderCell: (params: GridRenderCellParams<Product>) => {
         return (
           <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <Image
-              src={params.row.images[0] || "https://placehold.co/32x32"}
+            <SafeImage
+              src={params.row.images[0]}
               alt={params.row.title}
               width={32}
               height={32}

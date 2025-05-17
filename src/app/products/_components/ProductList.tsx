@@ -1,18 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import * as React from "react";
 import Box from "@mui/material/Box";
-import {
-  DataGrid,
-  GridFilterItem,
-  GridFilterModel,
-  GridPaginationModel,
-  GridSortModel,
-} from "@mui/x-data-grid";
-import useColumnDef from "../_hooks/useColumnDef.hook";
+import { DataGrid, GridPaginationModel } from "@mui/x-data-grid";
 import CustomToolbar from "@/components/grid-toobar";
-import { getProducts } from "@/app/apis/product.api";
-import { Product } from "@/app/types";
 import { Alert } from "@mui/material";
 import useProductList from "../_hooks/useProductList.hook";
 
@@ -29,6 +19,7 @@ export default function ProductList() {
     setSortModel,
     columns,
   } = useProductList();
+
   if (error) {
     return (
       <Box sx={{ p: 2 }}>

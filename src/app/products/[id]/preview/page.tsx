@@ -10,13 +10,9 @@ import {
   Chip,
   Breadcrumbs,
   Link,
-  Button,
-  Stack,
 } from "@mui/material";
 import Image from "next/image";
 import LayoutContent from "@/app/layouts/layout-content";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 
 interface Props {
   params: {
@@ -41,11 +37,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: product.title,
       description: product.description,
       images: product.images,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.title,
+      description: product.description,
+      images: product.images,
     },
   };
 }
 
-const ProductDetailPage = async ({ params }: Props) => {
+const ProductPreviewPage = async ({ params }: Props) => {
   const product = await getProductById(params.id);
 
   if (!product) {
@@ -59,29 +62,18 @@ const ProductDetailPage = async ({ params }: Props) => {
           <Link href="/products" color="inherit" underline="hover">
             Products
           </Link>
-          <Typography color="text.primary">{product.title}</Typography>
+          <Link
+            href={`/products/${product.id}`}
+            color="inherit"
+            underline="hover"
+          >
+            {product.title}
+          </Link>
+          <Typography color="text.primary">Preview</Typography>
         </Breadcrumbs>
       }
     >
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
-          <Button
-            startIcon={<ArrowBackIcon />}
-            href="/products"
-            variant="outlined"
-          >
-            Back to Products
-          </Button>
-          <Button
-            startIcon={<VisibilityIcon />}
-            href={`/products/${params.id}/preview`}
-            variant="contained"
-            target="_blank"
-          >
-            Preview
-          </Button>
-        </Stack>
-
         <Paper elevation={0} sx={{ borderRadius: 2 }}>
           <Box
             sx={{
@@ -102,16 +94,16 @@ const ProductDetailPage = async ({ params }: Props) => {
                 }}
               >
                 <Image
-                  src={product.images[0]}
-                  alt={product.title}
+                  src={product?.images[0] || "https://placehold.co/600x400"}
+                  alt={product?.title}
                   fill
                   style={{ objectFit: "cover" }}
                   priority
                 />
               </Box>
-              {product.images.length > 1 && (
+              {product?.images.length > 1 && (
                 <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
-                  {product.images.slice(1).map((image, index) => (
+                  {product?.images.slice(1).map((image, index) => (
                     <Box
                       key={index}
                       sx={{
@@ -192,4 +184,4 @@ const ProductDetailPage = async ({ params }: Props) => {
   );
 };
 
-export default ProductDetailPage;
+export default ProductPreviewPage;
