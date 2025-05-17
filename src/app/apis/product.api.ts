@@ -5,7 +5,6 @@ import {
   Product,
   ProductApiResponse,
 } from "@/app/types";
-import { GridFilterItem } from "@mui/x-data-grid";
 import axios from "axios";
 import queryString from "query-string";
 
