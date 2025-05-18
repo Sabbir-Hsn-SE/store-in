@@ -4,9 +4,33 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridPaginationModel } from "@mui/x-data-grid";
 import CustomToolbar from "@/components/grid-toobar";
 import { Alert } from "@mui/material";
-import useProductList from "../_hooks/useProductList.hook";
+import useProductList from "../hooks/useProductList.hook";
+import { useRouter } from "next/navigation";
+
+const customStyles = {
+  border: "none",
+  "& .MuiDataGrid-columnHeaders": {
+    height: "40px !important",
+    "& .MuiDataGrid-columnHeader": {
+      borderBottom: "0 !important",
+      borderTop: "0 !important",
+    },
+    // Set the header row height here
+  },
+  "& .MuiDataGrid-toolbar": {
+    borderBottom: "0 !important",
+    borderTop: "0 !important",
+  },
+  " & .MuiDataGrid-columnHeader:focus-within": {
+    outline: "none !important",
+  },
+  "& .MuiDataGrid-cell:focus-within": {
+    outline: "none !important",
+  },
+};
 
 export default function ProductList() {
+  const router = useRouter();
   const {
     products,
     error,
@@ -32,21 +56,7 @@ export default function ProductList() {
       <DataGrid
         rows={products || []}
         columns={columns}
-        sx={{
-          border: "none",
-          "& .MuiDataGrid-columnHeaders": {
-            height: "40px !important",
-            "& .MuiDataGrid-columnHeader": {
-              borderBottom: "0 !important",
-              borderTop: "0 !important",
-            },
-            // Set the header row height here
-          },
-          "& .MuiDataGrid-toolbar": {
-            borderBottom: "0 !important",
-            borderTop: "0 !important",
-          },
-        }}
+        sx={customStyles}
         loading={loading}
         slots={{ toolbar: CustomToolbar }}
         slotProps={{
@@ -72,7 +82,12 @@ export default function ProductList() {
         }}
         rowCount={61}
         pageSizeOptions={[10, 20, 30]}
-        disableRowSelectionOnClick
+        onRowClick={(params) => {
+          router.push(`/products/${params.row.id}`);
+        }}
+        isRowSelectable={() => true}
+        disableMultipleRowSelection
+        isCellEditable={() => false}
         paginationMode="server"
         onPaginationModelChange={(model: GridPaginationModel) => {
           setPaginationModel({

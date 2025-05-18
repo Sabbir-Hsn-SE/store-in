@@ -1,5 +1,5 @@
 import React from "react";
-import ProductList from "./_components/ProductList";
+import ProductList from "./components/ProductList";
 import LayoutContent from "../layouts/layout-content";
 import { Box, Typography } from "@mui/material";
 import { Metadata } from "next";

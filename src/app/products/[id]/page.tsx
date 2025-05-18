@@ -17,9 +17,11 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Metadata } from "next";
 
-export async function generateMetadata(props: {
+type PropsType = {
   params: Promise<{ id: string }>;
-}): Promise<Metadata> {
+};
+
+export async function generateMetadata(props: PropsType): Promise<Metadata> {
   const params = await props.params;
   const id = params.id;
   const product = await getProductById(id);
@@ -42,9 +44,7 @@ export async function generateMetadata(props: {
   };
 }
 
-const ProductDetailPage = async (props: {
-  params: Promise<{ id: string }>;
-}) => {
+const ProductDetailPage = async (props: PropsType) => {
   const params = await props.params;
   const id = params.id;
   const product = await getProductById(id);
@@ -56,11 +56,30 @@ const ProductDetailPage = async (props: {
   return (
     <LayoutContent
       SubHeaderComponent={
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link href="/products" color="inherit" underline="hover">
+        <Breadcrumbs maxItems={2} aria-label="breadcrumb">
+          <Link
+            sx={{ lg: { width: "fit-content" }, md: { width: "60px" } }}
+            href="/products"
+            color="inherit"
+            underline="hover"
+          >
             Products
           </Link>
-          <Typography color="text.primary">{product.title}</Typography>
+          <Typography
+            sx={{
+              maxWidth: {
+                xs: "90px",
+                sm: "300px",
+                md: "calc(100%-450px)",
+              },
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+            color="text.primary"
+          >
+            {product.title}
+          </Typography>
         </Breadcrumbs>
       }
     >

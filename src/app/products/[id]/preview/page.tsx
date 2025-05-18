@@ -16,17 +16,19 @@ import LayoutContent from "@/app/layouts/layout-content";
 
 // Utility to normalize image URLs
 const normalizeImageUrl = (url: string) => {
-  if (!url) return "https://placehold.co/600x400.png";
+  if (!url) return "https://placehold.co/1200x630.png";
   if (url.startsWith("http://") || url.startsWith("https://")) return url;
   if (url.startsWith("/")) return `https://api.escuelajs.co${url}`;
   return `https://api.escuelajs.co/${url}`;
 };
 
+type PropsType = {
+  params: Promise<{ id: string }>;
+};
+
 export async function generateMetadata({
   params,
-}: {
-  params: Promise<{ id: string }>;
-}): Promise<Metadata> {
+}: PropsType): Promise<Metadata> {
   const { id } = (await params) as { id: string };
   const product = await getProductById(id);
 
@@ -39,6 +41,8 @@ export async function generateMetadata({
   }
 
   const imageUrl = normalizeImageUrl(product.images[0]);
+  const canonicalUrl = `https://yourdomain.com/products/${id}/preview`;
+  const twitterHandle = "@yourtwitterhandle"; // TODO: Replace with your actual handle
 
   return {
     title: `${product.title} | Store In`,
@@ -46,6 +50,8 @@ export async function generateMetadata({
     openGraph: {
       title: product.title,
       description: product.description,
+      url: canonicalUrl,
+      siteName: "Store In",
       images: [
         {
           url: imageUrl,
@@ -54,24 +60,45 @@ export async function generateMetadata({
           alt: product.title,
         },
       ],
+      locale: "en_US",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
+      site: twitterHandle,
+      creator: twitterHandle,
       title: product.title,
       description: product.description,
       images: [imageUrl],
     },
     robots: "index, follow",
     alternates: {
-      canonical: `/products/${id}/preview`,
+      canonical: canonicalUrl,
+    },
+    other: {
+      "application/ld+json": JSON.stringify({
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        name: product.title,
+        image: [imageUrl],
+        description: product.description,
+        sku: product.id,
+        brand: {
+          "@type": "Brand",
+          name: "Store In",
+        },
+        offers: {
+          "@type": "Offer",
+          priceCurrency: "USD",
+          price: product.price,
+          availability: "https://schema.org/InStock",
+        },
+      }),
     },
   };
 }
 
-const ProductPreviewPage = async (props: {
-  params: Promise<{ id: string }>;
-}) => {
+const ProductPreviewPage = async (props: PropsType) => {
   const params = await props.params;
   const product = await getProductById(params.id);
 
@@ -82,7 +109,7 @@ const ProductPreviewPage = async (props: {
   return (
     <LayoutContent
       SubHeaderComponent={
-        <Breadcrumbs aria-label="breadcrumb">
+        <Breadcrumbs aria-label="breadcrumb" maxItems={2}>
           <Link href="/products" color="inherit" underline="hover">
             Products
           </Link>
@@ -91,7 +118,21 @@ const ProductPreviewPage = async (props: {
             color="inherit"
             underline="hover"
           >
-            {product.title}
+            <Typography
+              sx={{
+                maxWidth: {
+                  xs: "60px !important",
+                  sm: "300px !important",
+                  md: "calc(100%-450px) !important",
+                },
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+              color="inherit"
+            >
+              {product.title}
+            </Typography>
           </Link>
           <Typography color="text.primary">Preview</Typography>
         </Breadcrumbs>
