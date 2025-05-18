@@ -2,7 +2,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridPaginationModel } from "@mui/x-data-grid";
-import CustomToolbar from "@/app/products/components/grid-toobar";
+import CustomToolbar from "@/app/products/components/CustomToolbar";
 import { Alert } from "@mui/material";
 import useProductList from "../hooks/useProductList.hook";
 import { useRouter } from "next/navigation";

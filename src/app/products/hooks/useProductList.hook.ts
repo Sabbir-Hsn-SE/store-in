@@ -51,7 +51,34 @@ export default function useProductList() {
             },
           ]
         : []),
+      ...(selectedCategories.length > 0
+        ? [
+            {
+              field: "categoryId",
+              value: selectedCategories[selectedCategories.length - 1].id,
+              operator: "equals",
+            },
+          ]
+        : []),
+      ...(selectedPriceRanges.length > 0
+        ? [
+            {
+              field: "price_max",
+              value:
+                selectedPriceRanges[selectedPriceRanges.length - 1].price_max,
+              operator: "isGreaterThanOrEqualTo",
+            },
+            {
+              field: "price_min",
+              value:
+                selectedPriceRanges[selectedPriceRanges.length - 1].price_min,
+              operator: "isLessThanOrEqualTo",
+            },
+          ]
+        : []),
     ]);
+
+    console.log(filterItems);
 
     const fetchProducts = async () => {
       try {
@@ -71,7 +98,7 @@ export default function useProductList() {
     };
 
     fetchProducts();
-  }, [paginationModel, filterModel]);
+  }, [paginationModel, filterModel, selectedCategories, selectedPriceRanges]);
 
   const handleSelectedCategories = (options: Category[]) => {
     setSelectedCategories(options);
