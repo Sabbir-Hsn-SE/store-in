@@ -41,8 +41,7 @@ export async function generateMetadata({
   }
 
   const imageUrl = normalizeImageUrl(product.images[0]);
-  const canonicalUrl = `https://yourdomain.com/products/${id}/preview`;
-  const twitterHandle = "@yourtwitterhandle"; // TODO: Replace with your actual handle
+  const canonicalUrl = `https://store-in-self.vercel.app/products/${id}/preview`;
 
   return {
     title: `${product.title} | Store In`,
@@ -65,8 +64,6 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      site: twitterHandle,
-      creator: twitterHandle,
       title: product.title,
       description: product.description,
       images: [imageUrl],
