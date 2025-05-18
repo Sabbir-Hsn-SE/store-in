@@ -61,6 +61,7 @@ export async function generateMetadata({
       ],
       locale: "en_US",
       type: "website",
+      determiner: "the",
     },
     twitter: {
       card: "summary_large_image",
@@ -73,6 +74,10 @@ export async function generateMetadata({
       canonical: canonicalUrl,
     },
     other: {
+      "og:image:secure_url": imageUrl,
+      "og:image:type": "image/jpeg",
+      "og:image:width": "1200",
+      "og:image:height": "630",
       "application/ld+json": JSON.stringify({
         "@context": "https://schema.org/",
         "@type": "Product",
