@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { getProducts } from "@/app/apis/product.api";
-import { Product } from "@/app/types";
+import { Category, PriceRange, Product } from "@/app/types";
 import {
   GridFilterItem,
   GridFilterModel,
@@ -14,6 +13,10 @@ export default function useProductList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
+  const [selectedPriceRanges, setSelectedPriceRanges] = useState<PriceRange[]>(
+    [],
+  );
 
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
@@ -70,6 +73,14 @@ export default function useProductList() {
     fetchProducts();
   }, [paginationModel, filterModel]);
 
+  const handleSelectedCategories = (options: Category[]) => {
+    setSelectedCategories(options);
+  };
+
+  const handleSelectedPriceRanges = (options: PriceRange[]) => {
+    setSelectedPriceRanges(options);
+  };
+
   return {
     columns,
     products,
@@ -81,5 +92,9 @@ export default function useProductList() {
     setFilterModel,
     sortModel,
     setSortModel,
+    selectedCategories,
+    handleSelectedCategories,
+    selectedPriceRanges,
+    handleSelectedPriceRanges,
   };
 }

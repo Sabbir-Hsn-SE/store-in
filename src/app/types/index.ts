@@ -23,8 +23,8 @@ export interface ProductApiResponse extends Product {}
 export interface CategoryApiResponse extends Category {}
 
 export interface PriceRange {
-  id: string;
+  id: number;
   label: string;
-  min: number;
-  max: number;
+  price_min: number;
+  price_max: number;
 }
