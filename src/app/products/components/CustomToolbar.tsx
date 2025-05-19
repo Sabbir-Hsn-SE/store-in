@@ -54,7 +54,6 @@ const StyledTextField = styled(TextField)<{
 export default function CustomToolbar() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [categoryOption, setCategoryOption] = useState<Category[]>([]);
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -65,17 +64,14 @@ export default function CustomToolbar() {
     categories,
     priceRange,
   } = useProductContext();
-
   const fetchCategories = async () => {
     try {
       setLoading(true);
       const data = await getCategories();
       setCategoryOption(data);
-      setError(null);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_err) {
       setLoading(false);
-      setError("Failed to fetch products. Please try again later.");
     } finally {
       setLoading(false);
     }

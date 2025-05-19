@@ -86,7 +86,8 @@ export default function useProductList() {
         );
         setProducts(data);
         setError(null);
-      } catch (err) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (_err) {
         setError("Failed to fetch products. Please try again later.");
       } finally {
         setLoading(false);
