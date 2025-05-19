@@ -33,7 +33,7 @@ import theme from "@/theme/muiTheme";
 
 type OwnerState = {
   expanded: boolean;
-  isMobile: string;
+  isMobile: boolean;
 };
 
 const StyledQuickFilter = styled(QuickFilter)({
@@ -46,7 +46,7 @@ const StyledTextField = styled(TextField)<{
 }>(({ theme, ownerState }) => ({
   gridArea: "1 / 1",
   overflowX: "clip",
-  width: ownerState.isMobile ? 172 : 300,
+  width: ownerState.isMobile ? 172 : 260,
   opacity: ownerState.expanded ? 1 : 0,
   transition: theme.transitions.create(["width", "opacity"]),
 }));
@@ -101,7 +101,7 @@ export default function CustomToolbar() {
             render={({ ref, ...controlProps }, state) => (
               <StyledTextField
                 {...controlProps}
-                ownerState={{ expanded: true, isMobile: isMobile.toString() }}
+                ownerState={{ expanded: true, isMobile: isMobile }}
                 inputRef={ref}
                 aria-label="Search"
                 placeholder="Search..."

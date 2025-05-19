@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "Your inventory management system",
 };
 
-const page = () => {
+const ProductsPage = () => {
   return (
     <LayoutContent
       SubHeaderComponent={<Typography variant="subtitle1">Products</Typography>}
@@ -29,4 +29,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ProductsPage;
