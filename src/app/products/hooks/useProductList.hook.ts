@@ -50,15 +50,6 @@ export default function useProductList() {
             },
           ]
         : []),
-      ...(selectedCategories.length > 0
-        ? [
-            {
-              field: "categoryId",
-              value: selectedCategories[selectedCategories.length - 1].id,
-              operator: "equals",
-            },
-          ]
-        : []),
       ...(selectedPriceRanges.length > 0
         ? [
             {
@@ -72,6 +63,15 @@ export default function useProductList() {
               value:
                 selectedPriceRanges[selectedPriceRanges.length - 1].price_min,
               operator: "isLessThanOrEqualTo",
+            },
+          ]
+        : []),
+      ...(selectedCategories.length > 0
+        ? [
+            {
+              field: "categoryId",
+              value: selectedCategories[selectedCategories.length - 1].id,
+              operator: "equals",
             },
           ]
         : []),

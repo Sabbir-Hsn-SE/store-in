@@ -27,7 +27,7 @@ export const getProducts = async (
     const response = await axios.get<ProductApiResponse[]>(
       `${API_BASE_URL}/products/`,
       {
-        params: { limit, offset, ...filterItems },
+        params: { ...filterItems, limit, offset },
       },
     );
     // The API returns products directly as an array

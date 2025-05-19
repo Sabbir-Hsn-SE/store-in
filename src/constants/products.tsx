@@ -1,8 +1,8 @@
 export const PRICE_RANGES = [
   {
-    label: "0 to 25",
+    label: "1 to 25",
     id: 1,
-    price_min: 0,
+    price_min: 1,
     price_max: 25,
   },
   {
