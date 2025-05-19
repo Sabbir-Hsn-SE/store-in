@@ -101,6 +101,7 @@ export default function CustomToolbar() {
             render={({ ref, ...controlProps }, state) => (
               <StyledTextField
                 {...controlProps}
+                color="info"
                 ownerState={{ expanded: true, isMobile: isMobile }}
                 inputRef={ref}
                 aria-label="Search"

@@ -49,7 +49,7 @@ export default function ProductList() {
     selectedPriceRanges,
     handleSelectedPriceRanges,
   } = useProductList();
-  console.log(selectedCategories);
+
   if (error) {
     return (
       <Box sx={{ p: 2 }}>

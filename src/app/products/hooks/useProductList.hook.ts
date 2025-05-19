@@ -27,12 +27,11 @@ export default function useProductList() {
     items: [],
     quickFilterValues: [],
   });
-  console.log(sortModel);
 
   const validateFilter = (filterModel: GridFilterItem[]) => {
     let filterItems: Record<string, string> = {};
     filterModel.map((item) => {
-      if (!!item.value) {
+      if (item.value || item.value === 0) {
         filterItems = { ...filterItems, [item.field]: item.value };
       }
     });
@@ -77,9 +76,6 @@ export default function useProductList() {
           ]
         : []),
     ]);
-
-    console.log(filterItems);
-
     const fetchProducts = async () => {
       try {
         setLoading(true);

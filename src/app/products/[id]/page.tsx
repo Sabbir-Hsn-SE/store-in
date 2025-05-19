@@ -86,17 +86,21 @@ const ProductDetailPage = async (props: PropsType) => {
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Stack direction="row" spacing={2} sx={{ mb: 3 }}>
           <Button
+            size="small"
             startIcon={<ArrowBackIcon />}
             href="/products"
             variant="outlined"
+            sx={{ fontSize: { xs: "12px", md: "14px" } }}
           >
             Back to Products
           </Button>
           <Button
+            size="small"
             startIcon={<VisibilityIcon />}
             href={`/products/${id}/preview`}
             variant="contained"
             target="_blank"
+            sx={{ fontSize: { xs: "12px", md: "14px" } }}
           >
             Preview
           </Button>

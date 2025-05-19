@@ -5,7 +5,6 @@ import {
   ProductApiResponse,
 } from "@/app/types";
 import axios from "axios";
-import queryString from "query-string";
 
 const API_BASE_URL = "https://api.escuelajs.co/api/v1";
 
@@ -25,7 +24,6 @@ export const getProducts = async (
   filterItems: Record<string, string>,
 ): Promise<Product[]> => {
   try {
-    console.log(">>>", queryString.stringify(filterItems));
     const response = await axios.get<ProductApiResponse[]>(
       `${API_BASE_URL}/products/`,
       {

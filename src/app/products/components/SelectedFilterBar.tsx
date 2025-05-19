@@ -58,7 +58,7 @@ export default function SelectedFilterBar() {
           label={pr.label}
           onDelete={() => handleRemovePriceRangeFilter(pr.id)}
           size="small"
-          color="warning"
+          color="primary"
         />
       ))}
     </Box>
